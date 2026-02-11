@@ -1,6 +1,11 @@
 import nodemailer from "nodemailer"
 import dotenv from "dotenv"
 dotenv.config()
+console.log("MAIL CONFIG CHECK:", {
+  EMAIL: process.env.EMAIL,
+  HAS_APP_PASSWORD: !!process.env.EMAIL_APP_PASSWORD,
+});
+
 
 const transporter = nodemailer.createTransport({
   service: "smtp.gmail.com",
