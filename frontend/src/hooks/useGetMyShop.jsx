@@ -10,6 +10,8 @@ function useGetMyShop() {
   const {userData} =useSelector(state => state.user)
 
   useEffect(() => {
+    if (!userData) return; // Only fetch if user is logged in
+    
     const fetchMyShop = async () => {
       try {
         const res = await axios.get(`${serverUrl}/api/shop/get-my`, {withCredentials: true});
@@ -20,7 +22,8 @@ function useGetMyShop() {
     };
 
     fetchMyShop();
-  }, [userData]);
+  }, [userData?.role, userData?._id]); // Better dependency tracking
 };
 
 export default useGetMyShop;
+

@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { IoChevronBackCircle } from "react-icons/io5";
 import DeliveryBoyTracking from "../components/DeliveryBoyTracking";
-import { useSelector } from "react-redux";
+import useSocket from "../hooks/useSocket";
 
 function toNumber(v, fallback = null) {
   const n = Number(v);
@@ -17,7 +17,7 @@ function TrackOrderPage() {
   const { orderId } = useParams();
   const [currentOrder, setCurrentOrder] = useState();
   const navigate = useNavigate();
-  const { socket } = useSelector((state) => state.user);
+  const socket = useSocket();
   const [liveLocation, setLiveLocation] = useState({});
 
   const handleGetOrder = async () => {
@@ -58,8 +58,8 @@ function TrackOrderPage() {
         className="relative flex items-center gap-4 top-[20px] left-[20px] z-[10] mb-[10px]"
         onClick={() => navigate("/")}
       >
-        <IoChevronBackCircle size={35} className="text-[#ff4d2d]" />
-        <h1 className="text-2xl font-bold md:text-center">Track Order</h1>
+        <IoChevronBackCircle size={35} className="text-[#00fb7d]" />
+        <h1 className="text-2xl font-bold md:text-center text-white drop-shadow-lg bg-black/40 px-4 py-2 rounded-lg">Track Order</h1>
       </div>
 
       {currentOrder?.shopOrders?.map((shopOrder, index) => {
@@ -87,7 +87,7 @@ function TrackOrderPage() {
             key={index}
           >
             <div>
-              <p className="text-lg font-bold mb-2 text-[#ff4d2d]">
+              <p className="text-lg font-bold mb-2 text-[#00fb7d]">
                 {shopOrder.shop.name}
               </p>
               <p className="font-semibold">

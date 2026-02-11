@@ -39,7 +39,7 @@ function FoodCard({ data }) {
     }
   };
   return (
-    <div className="w-[250px] rounded-2xl border-2 border-[#ff4d2d] bg-white shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col">
+    <div className="w-[250px] rounded-2xl border-2 border-[#00fb7d] bg-white shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col">
       <div className="relative w-full h-[170px] flex justify-center items-center bg-white">
         <div className="absolute top-3 right-3 bg-white rounded-full p-1 shadow">
           {data.foodType === "veg" ? (
@@ -86,7 +86,7 @@ function FoodCard({ data }) {
             className={`${
               cartItems.some((i) => i.id == data._id)
                 ? "bg-gray-800"
-                : "bg-[#ff4d2d]"
+                : "bg-[#00fb7d]"
             } text-white px-3 py-2 transition-colors`}
             onClick={() => {
               if (quantity > 0) {

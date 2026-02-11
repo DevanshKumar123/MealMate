@@ -6,9 +6,11 @@ import UserOrderCard from "../components/UserOrderCard.jsx";
 import OwnerOrderCard from "../components/OwnerOrderCard";
 import { setMyOrders, updateRealTimeOrderStatus } from "../redux/userSlice.js";
 import { useEffect } from "react";
+import useSocket from "../hooks/useSocket";
 
 function MyOrders() {
-  const { userData, myOrders, socket } = useSelector((state) => state.user);
+  const { userData, myOrders } = useSelector((state) => state.user);
+  const socket = useSocket();
   const navigate = useNavigate();
   const dispatch = useDispatch()
 
@@ -31,13 +33,13 @@ function MyOrders() {
   },[socket])
 
   return (
-    <div className="w-full min-h-screen bg-[#fff9f6] flex justify-center px-4">
+    <div className="w-full min-h-screen bg-transparent flex justify-center px-4">
       <div className="w-full max-w-[800px] p-4">
         <div className="flex items-center gap-[20px] mb-6">
           <div className="z-[10]" onClick={() => navigate("/")}>
-            <IoChevronBackCircle size={35} className="text-[#ff4d2d]" />
+            <IoChevronBackCircle size={35} className="text-[#00fb7d]" />
           </div>
-          <h1 className="text-2xl font-bold text-start">My Orders</h1>
+          <h1 className="text-2xl font-bold text-start text-white drop-shadow-lg bg-black/40 px-4 py-2 rounded-lg">My Orders</h1>
         </div>
         <div className="space-y-6">
           {myOrders?.map((order, index) =>

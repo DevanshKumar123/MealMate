@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { serverUrl } from "../App.jsx";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setUserData } from "../redux/userSlice.js";
+import { setUserData, setIsLoading } from "../redux/userSlice.js";
 
 function useGetCurrentUser() {
 
@@ -15,11 +15,12 @@ function useGetCurrentUser() {
         });
         dispatch(setUserData(result.data))
       } catch (error) {
-        console.log(error)
+        // User not authenticated, set loading to false
+        dispatch(setIsLoading(false))
       }
     };
     fetchUser()
-  }, []);
+  }, [dispatch]);
 }
 
 export default useGetCurrentUser;

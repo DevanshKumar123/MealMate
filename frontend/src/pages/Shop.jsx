@@ -30,7 +30,7 @@ function Shop() {
   return (
     <div className='min-h-screen bg-gray-50'>
         <button className='absolute top-4 left-4 z-20 flex items-center gap-2 bg-black/50 hover:bg-black/70 text-white px-3 py-2 rounded-full shadow transition' onClick={() => navigate("/")}>
-            <IoChevronBackCircle size={35} className="text-[#ff4d2d]" />
+            <IoChevronBackCircle size={35} className="text-[#00fb7d]" />
             <span>Back</span>
         </button>
         {shop && <div className='relative w-full h-64 md:h-80 lg:h-96'>
@@ -48,7 +48,7 @@ function Shop() {
         </div>}
 
         <div className='max-w-7xl mx-auto px-6 py-10'>
-            <h2 className='flex items-center justify-center gap-3 text-3xl font-bold mb-10 text-gray-800'><FaUtensils color='red' />Our Menu</h2>
+            <h2 className='flex items-center justify-center gap-3 text-3xl font-bold mb-10 text-white drop-shadow-lg bg-black/40 px-4 py-2 rounded-lg w-fit'><FaUtensils color='#00fb7d' />Our Menu</h2>
 
             {items.length > 0 ? (
                 <div className='flex flex-wrap justify-center gap-8'>

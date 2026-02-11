@@ -21,13 +21,13 @@ function OwnerItemCard({ data }) {
     }
 
   return (
-    <div className="flex bg-white rounded-lg shadow-md overflow-hidden border border-[#ff4d2d] w-full max-w-2xl">
+    <div className="flex bg-white rounded-lg shadow-md overflow-hidden border border-[#00fb7d] w-full max-w-2xl">
       <div className="w-36 flex-shrink-0 bg-gray-50">
         <img src={data.image} alt="" className="w-full h-full object-cover" />
       </div>
       <div className="flex flex-col justify-between p-3 flex-1">
         <div>
-          <h2 className="text-base font-semibold text-[#ff4d2d]">
+          <h2 className="text-base font-semibold text-[#00fb7d]">
             {data.name}
           </h2>
           <p>
@@ -41,12 +41,12 @@ function OwnerItemCard({ data }) {
         </div>
 
         <div className="flex items-center justify-between">
-          <div className="text-[#ff4d2d] font-bold">{data.price}</div>
+          <div className="text-[#00fb7d] font-bold">{data.price}</div>
           <div className="flex items-center gap-2">
-            <div className="p-2 cursor-pointer rounded-full hover:bg-[#ff4d2d]/10 text-[#ff4d2d]" onClick={() => navigate(`/edit-item/${data._id}`)}>
+            <div className="p-2 cursor-pointer rounded-full hover:bg-[#00fb7d]/10 text-[#00fb7d]" onClick={() => navigate(`/edit-item/${data._id}`)}>
               <FaPenSquare size={16} />
             </div>
-            <div className="p-2 cursor-pointer rounded-full hover:bg-[#ff4d2d]/10 text-[#ff4d2d]" onClick={handleDelete}>
+            <div className="p-2 cursor-pointer rounded-full hover:bg-[#00fb7d]/10 text-[#00fb7d]" onClick={handleDelete}>
               <FaTrashAlt size={16} />
             </div>
           </div>

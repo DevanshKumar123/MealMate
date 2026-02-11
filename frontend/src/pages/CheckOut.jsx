@@ -144,7 +144,7 @@ function CheckOut() {
   }, [address]);
 
   return (
-    <div className="min-h-screen bg-[#fff9f6] flex items-center justify-center p-6">
+    <div className="min-h-screen bg-transparent flex items-center justify-center p-6">
       <div
         className="absolute top-[20px] left-[20px] z-[10]"
         onClick={() => navigate("/")}
@@ -152,9 +152,9 @@ function CheckOut() {
         <IoChevronBackCircle size={35} className="text-[#ff4d2d]" />
       </div>
       <div className="w-full max-w-[900px] bg-white rounded-2xl shadow-xl p-6 space-y-6 ">
-        <h1 className="text-2xl font-bold text-gray-800">CheckOut</h1>
+        <h1 className="text-2xl font-bold text-white drop-shadow-lg bg-black/40 px-4 py-2 rounded-lg">CheckOut</h1>
         <section>
-          <h2 className="text-lg font-semibold mb-2 flex items-center gap-2 text-gray-800">
+          <h2 className="text-lg font-semibold mb-2 flex items-center gap-2 text-white drop-shadow-lg bg-black/40 px-4 py-2 rounded-lg">
             <FaLocationDot size={18} className="text-[#ff4d2d]" />
             Delivery Locations
           </h2>
@@ -202,7 +202,7 @@ function CheckOut() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold mb-3 text-gray-800">
+          <h2 className="text-lg font-semibold mb-3 text-white drop-shadow-lg bg-black/40 px-4 py-2 rounded-lg">
             Payment Method
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -249,7 +249,7 @@ function CheckOut() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold mb-3 text-gray-800">
+          <h2 className="text-lg font-semibold mb-3 text-white drop-shadow-lg bg-black/40 px-4 py-2 rounded-lg">
             Order Summary
           </h2>
           <div className="rounded-xl border bg-gray-50 p-4 space-y-2 ">

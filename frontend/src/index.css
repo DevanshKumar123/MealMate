@@ -10,3 +10,12 @@
 ::-webkit-scrollbar {
     display: none; /* chrome,safari */
 }
+
+body {
+    background-image: url('./assets/background.png');
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center;
+    min-height: 100vh;
+}

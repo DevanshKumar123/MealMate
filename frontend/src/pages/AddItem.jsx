@@ -167,7 +167,7 @@ function AddItem() {
             className={`w-full px-6 py-3 rounded-lg font-semibold shadow-md transition-all duration-200 cursor-pointer ${
               loading
                 ? "bg-gray-400 text-white cursor-not-allowed"
-                : "bg-[#ff4d2d] text-white hover:bg-orange-600 hover:shadow-lg"
+                : "bg-[#00fb7d] text-black hover:bg-[#00d965] hover:shadow-lg"
             }`}
           >
             {loading ?<ClipLoader size={20} color="white"/>: "Save"}

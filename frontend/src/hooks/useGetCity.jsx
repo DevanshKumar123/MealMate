@@ -6,30 +6,54 @@ import {
   setCurrentCity,
   setCurrentState,
   setCurrentAddress,
-  setUserData,
 } from "../redux/userSlice.js";
 import { setAddress, setLocation } from "../redux/mapSlice.js";
 
 function useGetCity() {
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.user);
-  const apiKey = import.meta.env.VITE_GEOAPIKEY;
+  
+  // Device location is Haldia, West Bengal - use for all 3 roles
+  const DEVICE_LOCATION = {
+    latitude: 22.1697,
+    longitude: 88.3697,
+    city: "Haldia",
+    state: "West Bengal",
+    address: "Haldia, West Bengal, India"
+  };
+  
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(async (position) => {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      dispatch(setLocation({lat:latitude,lon:longitude}))
-      const result = await axios.get(
-        `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&format=json&apiKey=${apiKey}`
-      );
+    if (!userData) return; // Don't run if user not logged in
 
-      console.log(result.data)
-      dispatch(setCurrentCity(result?.data?.results[0].city || result?.data?.results[0].county));
-      dispatch(setCurrentState(result?.data?.results[0].state));
-      dispatch(setCurrentAddress(result?.data?.results[0].address_line2 || result?.data?.results[0].address_line1));
-      dispatch(setAddress(result?.data?.results[0].address_line2))
-    });
-  }, [userData]);
+    // Use device location (Haldia) for all users
+    const latitude = DEVICE_LOCATION.latitude;
+    const longitude = DEVICE_LOCATION.longitude;
+    
+    dispatch(setLocation({lat:latitude,lon:longitude}))
+    dispatch(setCurrentCity(DEVICE_LOCATION.city));
+    dispatch(setCurrentState(DEVICE_LOCATION.state));
+    dispatch(setCurrentAddress(DEVICE_LOCATION.address));
+    dispatch(setAddress(DEVICE_LOCATION.address));
+
+    // Also update user location on backend with city/state info
+    if (userData) {
+      try {
+        axios.post(
+          `${serverUrl}/api/user/update-location`,
+          { 
+            lat: latitude, 
+            lon: longitude, 
+            city: DEVICE_LOCATION.city, 
+            state: DEVICE_LOCATION.state, 
+            address: DEVICE_LOCATION.address 
+          },
+          { withCredentials: true }
+        );
+      } catch (error) {
+        console.error("Failed to sync location with backend:", error);
+      }
+    }
+  }, [userData, dispatch]);
 }
 
 export default useGetCity;

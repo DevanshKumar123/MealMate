@@ -6,9 +6,11 @@ import { serverUrl } from "../App";
 import DeliveryBoyTracking from "./DeliveryBoyTracking";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { ClipLoader } from "react-spinners";
+import useSocket from "../hooks/useSocket";
 
 function DeliveryBoy() {
-  const { userData, socket } = useSelector((state) => state.user);
+  const { userData } = useSelector((state) => state.user);
+  const socket = useSocket();
   const [showOtpBox, setShowOtpBox] = useState(false);
   const [currentOrder, setCurrentOrder] = useState();
   const [availableAssignments, setAvailableAssignments] = useState(null);
@@ -18,29 +20,33 @@ function DeliveryBoy() {
   const [loading,setLoading] = useState(false)
   const [message,setMessage] = useState("")
 
+  // Device location is Haldia, West Bengal - use for all delivery boys
+  const DEVICE_LOCATION = {
+    latitude: 22.1697,
+    longitude: 88.3697
+  };
+
   useEffect(() => {
     if (!socket || userData.role !== "deliveryBoy") return;
-    let watchId;
-    if (navigator.geolocation) {
-      (watchId = navigator.geolocation.watchPosition((position) => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-        setDeliveryBoyLocation({lat:latitude,lon:longitude})
-        socket.emit("updateLocation", {
-          latitude,
-          longitude,
-          userId: userData._id,
-        });
-      })),
-        (error) => {
-          console.log(error);
-        },
-        {
-          enableHighAccuracy: true,
-        };
-    }
+    
+    // Emit Haldia device location
+    const updateLocation = () => {
+      setDeliveryBoyLocation({lat: DEVICE_LOCATION.latitude, lon: DEVICE_LOCATION.longitude});
+      socket.emit("updateLocation", {
+        latitude: DEVICE_LOCATION.latitude,
+        longitude: DEVICE_LOCATION.longitude,
+        userId: userData._id,
+      });
+    };
+    
+    // Send location immediately
+    updateLocation();
+    
+    // Send location updates every 10 seconds
+    const intervalId = setInterval(updateLocation, 10000);
+
     return () => {
-      if (watchId) navigator.geolocation.clearWatch(watchId);
+      clearInterval(intervalId);
     };
   }, [socket, userData]);
 
@@ -165,7 +171,7 @@ function DeliveryBoy() {
     const totalEarning = todayDeliveries.reduce((sum,d) => sum  + d.count*ratePerDeliveries , 0)
 
   return (
-    <div className="w-screen min-h-screen flex flex-col gap-5 items-center bg-[#fff9f6] overflow-y-auto">
+    <div className="w-screen min-h-screen flex flex-col gap-5 items-center bg-transparent overflow-y-auto">
       <Nav />
       <div className="w-full max-w-[800px] flex flex-col gap-5 items-center">
         <div className="bg-white rounded-2xl shadow-md p-5 flex flex-col justify-start items-center w-[90%] border border-orange-100 text-center gap-2">
@@ -194,7 +200,7 @@ function DeliveryBoy() {
           </ResponsiveContainer>
 
           <div className="max-w-sm mx-auto mt-6 p-6 bg-white rounded-2xl shadow-lg text-center">
-            <h1 className="text-xl font-semibold text-gray-800 mb-2">Today's Earning</h1>
+            <h1 className="text-xl font-semibold text-white drop-shadow-lg bg-black/40 px-4 py-2 rounded-lg mb-2">Today's Earning</h1>
             <span className="text-3xl font-bold text-green-600">₹ {totalEarning}</span>
           </div>
         </div>

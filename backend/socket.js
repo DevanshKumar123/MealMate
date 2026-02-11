@@ -1,25 +1,7 @@
-// import User from "./models/user.model"
-
-// export const socketHandler = (io) => {
-//     io.on('connection',(socket) => {
-//         socket.on('identity',async ({userId}) => {
-//             try {
-//                 const user = await User.findByIdAndUpdate(userId, {
-//                     socketId: socket.id , isOnline:true
-//                 },{new:true})
-//             } catch (error) {
-//                 console.log(error)
-//             }
-//         })
-//     })
-// }
-
 import User from "./models/user.model.js";
 
 export const socketHandler = (io) => {
   io.on("connection", (socket) => {
-    console.log("Socket connected:", socket.id);
-
     socket.on("identity", async ({ userId }) => {
       try {
         if (!userId) return;
@@ -28,7 +10,6 @@ export const socketHandler = (io) => {
           { socketId: socket.id, isOnline: true },
           { new: true }
         );
-        console.log(`User ${userId} set online with socket ${socket.id}`);
       } catch (error) {
         console.error("Socket identity error:", error);
       }
@@ -45,21 +26,20 @@ export const socketHandler = (io) => {
           socketId: socket.id,
         });
         if (user) {
+          // Broadcast to all connected clients
           io.emit("updateDeliveryLocation", {
             deliveryBoyId: userId,
-            latitude,
-            longitude
+            latitude: Number(latitude),
+            longitude: Number(longitude)
           });
         }
       } catch (error) {
-        console.log('Update Delivery Location Error');
+        console.error('Update Delivery Location Error:', error);
       }
     });
 
     socket.on("disconnect", async (reason) => {
       try {
-        console.log("Socket disconnected:", socket.id, reason);
-        // find user by socketId and mark offline
         await User.findOneAndUpdate(
           { socketId: socket.id },
           { isOnline: false, socketId: null }

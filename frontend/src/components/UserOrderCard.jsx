@@ -78,7 +78,7 @@ function UserOrderCard({data}) {
 
         <div className='flex justify-between items-center border-t pt-2'>
             <p className='font-semibold'>Total: ₹{data.totalAmount}</p>
-            <button className='bg-[#ff4d2d] hover:bg-[#e64526] text-white px-4 py-2 rounded-lg text-sm' onClick={() => navigate(`/track-order/${data._id}`)}>Track Order</button>
+            <button className='bg-[#00fb7d] hover:bg-[#00d965] text-black px-4 py-2 rounded-lg text-sm' onClick={() => navigate(`/track-order/${data._id}`)}>Track Order</button>
         </div>
 
     </div>

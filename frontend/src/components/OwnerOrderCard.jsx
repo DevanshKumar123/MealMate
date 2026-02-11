@@ -28,7 +28,7 @@ function OwnerOrderCard({ data }) {
   return (
     <div className="bg-white rounded-lg shadow p-4 space-y-4">
       <div>
-        <h2 className="text-lg font-semibold text-gray-800">
+        <h2 className="text-lg font-semibold text-white drop-shadow-lg bg-black/40 px-3 py-1 rounded-lg">
           {data?.user?.fullName || "Unknown User"}
         </h2>
         <p className="text-sm text-gray-500">{data?.user?.email}</p>
@@ -71,13 +71,13 @@ function OwnerOrderCard({ data }) {
       <div className="flex justify-between items-center mt-auto pt-3 border-t border-gray-100">
         <span className="text-sm">
           Status:{" "}
-          <span className="font-semibold capitalize text-[#ff4d2d]">
+          <span className="font-semibold capitalize text-[#00fb7d]">
             {shopOrder?.status || "pending"}
           </span>
         </span>
 
         <select
-          className="rounded-md border px-3 py-1 text-sm focus:outline-none focus:ring-2 border-[#ff4d2d] text-[#ff4d2d]"
+          className="rounded-md border px-3 py-1 text-sm focus:outline-none focus:ring-2 border-[#00fb7d] text-[#00fb7d]"
           onChange={(e) =>
             handleUpdateStatus(data?._id, shopOrder?.shop?._id, e.target.value)
           }

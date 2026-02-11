@@ -8,16 +8,16 @@ function CartPage() {
   const navigate = useNavigate();
   const { cartItems , totalAmount } = useSelector((state) => state.user);
   return (
-    <div className="min-h-screen bg-[#fff9f6] flex justify-center p-6">
+    <div className="min-h-screen bg-transparent flex justify-center p-6">
       <div className="w-full max-w-[800px]">
         <div className="flex items-center gap-[20px] mb-6">
           <div className="z-[10]" onClick={() => navigate("/")}>
             <IoChevronBackCircle size={35} className="text-[#ff4d2d]" />
           </div>
-          <h1 className="text-2xl font-bold text-start">Your Cart</h1>
+          <h1 className="text-2xl font-bold text-start text-white drop-shadow-lg bg-black/40 px-4 py-2 rounded-lg">Your Cart</h1>
         </div>
         {cartItems?.length == 0 ? (
-          <p className="text-gray-500 text-lg text-center">
+          <p className="text-white text-lg text-center drop-shadow-lg bg-black/40 px-4 py-2 rounded-lg inline-block mx-auto">
             Your Cart is Empty
           </p>
         ) : (

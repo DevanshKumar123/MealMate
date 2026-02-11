@@ -93,17 +93,17 @@ function EditItem() {
   },[currentItem])
 
   return (
-    <div className="flex justify-center flex-col items-center p-6 bg-gradient-to-br from-orange-50 relative to-white min-h-screen">
+    <div className="flex justify-center flex-col items-center p-6 bg-gradient-to-br from-green-50 relative to-white min-h-screen">
       <div
         className="absolute top-[20px] left-[20px] z-[10] mb-[10px]"
         onClick={() => navigate("/")}
       >
-        <IoChevronBackCircle size={35} className="text-[#ff4d2d]" />
+        <IoChevronBackCircle size={35} className="text-[#00fb7d]" />
       </div>
-      <div className="max-w-lg w-full bg-white shadow-xl rounded-2xl p-8 border border-orange-100">
+      <div className="max-w-lg w-full bg-white shadow-xl rounded-2xl p-8 border border-green-100">
         <div className="flex flex-col items-center mb-6">
-          <div className="bg-orange-100 p-4 rounded-full mb-4">
-            <FaUtensils className="text-[#ff4d2d] w-16 h-16" />
+          <div className="bg-green-100 p-4 rounded-full mb-4">
+            <FaUtensils className="text-[#00fb7d] w-16 h-16" />
           </div>
           <div className="text-3xl font-extrabold text-gray-900">
             Edit Food

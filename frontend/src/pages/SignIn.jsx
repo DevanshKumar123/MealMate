@@ -13,7 +13,7 @@ import { useDispatch } from "react-redux";
 import { setUserData } from "../redux/userSlice.js";
 
 function SignIn() {
-  const primaryColor = "#ff4d2d";
+  const primaryColor = "#00fb7d";
   const hoverColor = "#e64323";
   const bgColor = "#fff9f6";
   const borderColor = "#ddd";
@@ -129,12 +129,12 @@ function SignIn() {
             </button>
           </div>
         </div>
-        <button className="text-right mb-4 text-[#ff4d2d] font-medium cursor-pointer" onClick={() => navigate("/forgot-password")}>
+        <button className="text-right mb-4 text-[#00fb7d] font-medium cursor-pointer" onClick={() => navigate("/forgot-password")}>
           Forgot Password
         </button>
 
         <button
-          className={`w-full font-semibold py-2 rounded-lg transition duration-200 bg-[#ff4d2d] text-white hover:bg-[#e64323] cursor-pointer`}
+          className={`w-full font-semibold py-2 rounded-lg transition duration-200 bg-[#00fb7d] text-black hover:bg-[#00d965] cursor-pointer`}
           onClick={handleSignIn}
           disabled = {loading}
         >
@@ -151,7 +151,7 @@ function SignIn() {
           onClick={() => navigate("/signup")}
         >
           Want to create a new account ?
-          <span className="text-[#ff4d2d]">SignUp</span>
+          <span className="text-[#00fb7d]">SignUp</span>
         </p>
       </div>
     </div>

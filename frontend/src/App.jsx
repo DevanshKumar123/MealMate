@@ -4,7 +4,7 @@ import SignUp from "./pages/SignUp.jsx";
 import SignIn from "./pages/SignIn.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import useGetCurrentUser from "./hooks/useGetCurrentUser.jsx";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Home from "./pages/Home.jsx";
 import useGetCity from "./hooks/useGetCity.jsx";
 import useGetMyShop from "./hooks/useGetMyShop.jsx";
@@ -21,34 +21,34 @@ import useGetMyOrders from "./hooks/useGetMyOrders.jsx";
 import useUpdateLocation from "./hooks/useUpdateLocation.jsx";
 import TrackOrderPage from "./pages/TrackOrderPage.jsx";
 import Shop from "./pages/Shop.jsx";
-import { useEffect } from "react";
-import { io } from "socket.io-client";
-import { setSocket } from "./redux/userSlice.js";
+import useSocket from "./hooks/useSocket.jsx";
 
 export const serverUrl = "http://localhost:8000";
+
 function App() {
-  useGetShopByCity();
+  // CRITICAL: All hooks MUST be called at top level, never conditionally
+  // React requires the same number of hooks to be called in the same order every render
   useGetCurrentUser();
+  useSocket();
+  useGetShopByCity();
   useUpdateLocation();
   useGetCity();
   useGetMyShop();
   useGetItemsByCity();
   useGetMyOrders();
-  const { userData } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const socketInstance = io(serverUrl, { withCredentials: true });
-    dispatch(setSocket(socketInstance));
-    socketInstance.on("connect", () => {
-      if (userData) {
-        socketInstance.emit("identity", {userId:userData._id});
-      }
-    });
-    return () => {
-      socketInstance.disconnect()
-    }
-  }, [userData?._id]);
+  const { userData, isLoading } = useSelector((state) => state.user);
+
+  if (isLoading) {
+    return (
+      <div className="w-screen h-screen flex items-center justify-center bg-transparent">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-[#ff4d2d] mx-auto mb-4"></div>
+          <p className="text-xl text-white drop-shadow-lg bg-black/40 px-4 py-2 rounded-lg">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <Routes>
@@ -66,7 +66,7 @@ function App() {
       />
       <Route
         path="/"
-        element={userData ? <Home /> : <Navigate to={"/signin"} />}
+        element={<Home />}
       />
       <Route
         path="/create-edit-shop"

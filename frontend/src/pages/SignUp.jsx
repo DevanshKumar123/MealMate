@@ -13,7 +13,7 @@ import { useDispatch } from "react-redux";
 import { setUserData } from "../redux/userSlice.js";
 
 function SignUp() {
-  const primaryColor = "#ff4d2d";
+  const primaryColor = "#00fb7d";
   const hoverColor = "#e64323";
   const bgColor = "#fff9f6";
   const borderColor = "#ddd";
@@ -211,7 +211,7 @@ function SignUp() {
         </div>
 
         <button
-          className={`w-full font-semibold py-2 rounded-lg transition duration-200 bg-[#ff4d2d] text-white hover:bg-[#e64323] cursor-pointer`}
+          className={`w-full font-semibold py-2 rounded-lg transition duration-200 bg-[#00fb7d] text-black hover:bg-[#00d965] cursor-pointer`}
           onClick={handleSignUp}
           disabled = {loading}
         >
@@ -229,7 +229,7 @@ function SignUp() {
           onClick={() => navigate("/signin")}
         >
           Already have an account ?
-          <span className="text-[#ff4d2d]">SignIn</span>
+          <span className="text-[#00fb7d]">SignIn</span>
         </p>
       </div>
     </div>

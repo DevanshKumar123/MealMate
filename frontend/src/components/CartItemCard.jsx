@@ -25,7 +25,7 @@ function CartItemCard({ data }) {const dispatch = useDispatch()
           className="w-20 h-20 object-cover rounded-lg border"
         />
         <div>
-          <h1 className="font-medium text-gray-800">{data.name}</h1>
+          <h1 className="font-medium text-white drop-shadow-lg">{data.name}</h1>
           <p className="text-sm text-gray-500">
             ₹ {data.price} x {data.quantity}
           </p>

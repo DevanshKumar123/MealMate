@@ -20,7 +20,7 @@ export const getCurrentUser = async (req,res) => {
 
 export const updateUserLocation = async (req, res) => {
     try {
-        const { lat, lon } = req.body;
+        const { lat, lon, city, state, address } = req.body;
         
         if (!lat || !lon) {
             return res.status(400).json({ message: "Latitude and longitude required" });
@@ -38,7 +38,10 @@ export const updateUserLocation = async (req, res) => {
                 location: {
                     type: "Point",
                     coordinates: [Number(lon), Number(lat)]
-                }
+                },
+                city: city || undefined,
+                state: state || undefined,
+                address: address || undefined
             },
             { new: true }
         );
@@ -49,7 +52,7 @@ export const updateUserLocation = async (req, res) => {
 
         return res.status(200).json({
             message: "Location updated successfully",
-            location: updatedUser.location
+            user: updatedUser
         });
 
     } catch (error) {
