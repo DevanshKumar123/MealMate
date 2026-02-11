@@ -3,7 +3,7 @@ import dotenv from "dotenv"
 dotenv.config()
 console.log("MAIL CONFIG CHECK:", {
   EMAIL: process.env.EMAIL,
-  HAS_APP_PASSWORD: !!process.env.EMAIL_APP_PASSWORD,
+  PASS: !!process.env.PASS,
 });
 
 
