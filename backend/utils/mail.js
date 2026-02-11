@@ -3,19 +3,20 @@ import dotenv from "dotenv"
 dotenv.config()
 console.log("MAIL CONFIG CHECK:", {
   EMAIL: process.env.EMAIL,
-  PASS: !!process.env.PASS,
+  HAS_APP_PASSWORD: !!process.env.EMAIL_APP_PASSWORD,
 });
 
 
 const transporter = nodemailer.createTransport({
-  service: "smtp.gmail.com",
+  host: "smtp.gmail.com",
   port: 465,
-  secure: true, // true for 465, false for other ports
+  secure: true,
   auth: {
     user: process.env.EMAIL,
-    pass: process.env.PASS,
+    pass: process.env.EMAIL_APP_PASSWORD,
   },
 });
+
 
 export const sendOtpMail = async (to, otp) => {
   try {
