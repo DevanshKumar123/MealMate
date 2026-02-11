@@ -23,7 +23,10 @@ import TrackOrderPage from "./pages/TrackOrderPage.jsx";
 import Shop from "./pages/Shop.jsx";
 import useSocket from "./hooks/useSocket.jsx";
 
-export const serverUrl = "https://mealmate-backend-3z3z.onrender.com";
+export const serverUrl =
+  window.location.hostname === "localhost"
+    ? "http://localhost:8000"
+    : "https://mealmate-backend-3z3z.onrender.com";
 
 function App() {
   useGetShopByCity();
