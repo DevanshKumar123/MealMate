@@ -26,8 +26,7 @@ import useSocket from "./hooks/useSocket.jsx";
 export const serverUrl = "http://localhost:8000";
 
 function App() {
-  // CRITICAL: All hooks MUST be called at top level, never conditionally
-  // React requires the same number of hooks to be called in the same order every render
+  useGetShopByCity();
   useGetCurrentUser();
   useSocket();
   useGetShopByCity();
