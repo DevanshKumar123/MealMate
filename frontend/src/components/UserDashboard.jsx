@@ -5,12 +5,14 @@ import { categories } from "../category";
 import { FaChevronCircleLeft } from "react-icons/fa";
 import { FaChevronCircleRight } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import useGetAllShops from "../hooks/useGetShopByCity.jsx";
 import FoodCard from "./FoodCard";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { serverUrl } from "../App";
 
 function UserDashboard() {
+  useGetAllShops();
   const { currentCity, shopInMyCity, itemsInMyCity , searchItems } = useSelector((state) => state.user);
   const cateScrollRef = useRef();
   const shopScrollRef = useRef();
