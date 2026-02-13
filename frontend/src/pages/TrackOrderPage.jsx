@@ -66,18 +66,18 @@ function TrackOrderPage() {
         // ensure numeric fallback for customer's coordinates
         const customerLat = toNumber(
           currentOrder?.deliveryAddress?.latitude,
-          null
+          0
         );
         const customerLon = toNumber(
           currentOrder?.deliveryAddress?.longitude,
-          null
+          0
         );
 
         // assigned delivery boy coords (from DB stored as [lon, lat])
         const assignedUserCoords = shopOrder.assignedDeliveryBoy?.location
-          ?.coordinates || [];
-        const deliveryBoyDefaultLat = toNumber(assignedUserCoords[1], null);
-        const deliveryBoyDefaultLon = toNumber(assignedUserCoords[0], null);
+          ?.coordinates || [0,0];
+        const deliveryBoyDefaultLat = toNumber(assignedUserCoords[1], 0);
+        const deliveryBoyDefaultLon = toNumber(assignedUserCoords[0], 0);
 
         const live = liveLocation[shopOrder.assignedDeliveryBoy?._id] || null;
 

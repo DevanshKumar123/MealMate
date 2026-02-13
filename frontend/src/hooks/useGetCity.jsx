@@ -13,45 +13,38 @@ function useGetCity() {
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.user);
   
-  // Device location is Haldia, West Bengal - use for all 3 roles
-  const DEVICE_LOCATION = {
-    latitude: 22.1697,
-    longitude: 88.3697,
-    city: "Haldia",
-    state: "West Bengal",
-    address: "Haldia, West Bengal, India"
-  };
-  
   useEffect(() => {
-    if (!userData) return; // Don't run if user not logged in
-
-    // Use device location (Haldia) for all users
-    const latitude = DEVICE_LOCATION.latitude;
-    const longitude = DEVICE_LOCATION.longitude;
-    
-    dispatch(setLocation({lat:latitude,lon:longitude}))
-    dispatch(setCurrentCity(DEVICE_LOCATION.city));
-    dispatch(setCurrentState(DEVICE_LOCATION.state));
-    dispatch(setCurrentAddress(DEVICE_LOCATION.address));
-    dispatch(setAddress(DEVICE_LOCATION.address));
-
-    // Also update user location on backend with city/state info
-    if (userData) {
-      try {
-        axios.post(
-          `${serverUrl}/api/user/update-location`,
-          { 
-            lat: latitude, 
-            lon: longitude, 
-            city: DEVICE_LOCATION.city, 
-            state: DEVICE_LOCATION.state, 
-            address: DEVICE_LOCATION.address 
-          },
-          { withCredentials: true }
-        );
-      } catch (error) {
-        console.error("Failed to sync location with backend:", error);
-      }
+    if (!userData) return;
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          dispatch(setLocation({ lat: latitude, lon: longitude }));
+          // Use a geocoding API to get city/state/address
+          try {
+            // Example using OpenStreetMap Nominatim
+            const geoRes = await axios.get(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`);
+            const city = geoRes.data.address.city || geoRes.data.address.town || geoRes.data.address.village || "";
+            const state = geoRes.data.address.state || "";
+            const address = geoRes.data.display_name || "";
+            dispatch(setCurrentCity(city));
+            dispatch(setCurrentState(state));
+            dispatch(setCurrentAddress(address));
+            dispatch(setAddress(address));
+            await axios.post(
+              `${serverUrl}/api/user/update-location`,
+              { lat: latitude, lon: longitude, city, state, address },
+              { withCredentials: true }
+            );
+          } catch (error) {
+            console.error("Failed to sync location with backend or geocode:", error);
+          }
+        },
+        () => {
+          // Fallback if location not available
+        }
+      );
     }
   }, [userData, dispatch]);
 }

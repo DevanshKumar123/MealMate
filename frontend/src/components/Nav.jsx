@@ -12,7 +12,7 @@ import { TbReceiptDollar } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 
 function Nav() {
-  const { userData, currentCity , cartItems } = useSelector((state) => state.user);
+  const { userData, currentCity, currentAddress, cartItems } = useSelector((state) => state.user);
   const { myShopData } = useSelector((state) => state.owner);
   const [showInfo, setShowInfo] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -74,7 +74,7 @@ function Nav() {
         <div className="md:w-[60%] lg:w-[40%] h-[70px] bg-white shadow-xl rounded-lg items-center gap-[20px] hidden md:flex">
           <div className="flex items-center w-[30%] overflow-hidden gap-[10px] px-[10px] border-r-[2px] border-gray-400">
             <FaLocationDot size={25} className="text-[#ff4d2d]" />
-            <div className="w-[80%] truncate text-gray-600">{currentCity}</div>
+            <div className="w-[80%] truncate text-gray-600">{currentCity || "Fetching..."} {currentAddress && <span className='text-xs text-gray-400'>({currentAddress})</span>}</div>
           </div>
 
           <div className="w-[80%] flex items-center gap-[10px]">

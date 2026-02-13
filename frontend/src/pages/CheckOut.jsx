@@ -42,10 +42,19 @@ function CheckOut() {
   };
 
   const getCurrentLocation = () => {
-    const latitude = userData.location.coordinates[1];
-    const longitude = userData.location.coordinates[0];
-    dispatch(setLocation({ lat: latitude, lon: longitude }));
-    getAddressByLatLng(latitude, longitude);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        dispatch(setLocation({ lat: latitude, lon: longitude }));
+        getAddressByLatLng(latitude, longitude);
+      });
+    } else if (userData.location && userData.location.coordinates) {
+      const latitude = userData.location.coordinates[1];
+      const longitude = userData.location.coordinates[0];
+      dispatch(setLocation({ lat: latitude, lon: longitude }));
+      getAddressByLatLng(latitude, longitude);
+    }
   };
 
   const getAddressByLatLng = async (lat, lng) => {
@@ -253,9 +262,9 @@ function CheckOut() {
             Order Summary
           </h2>
           <div className="rounded-xl border bg-gray-50 p-4 space-y-2 ">
-            {cartItems.map((item, index) => (
+            {cartItems.map((item) => (
               <div
-                key={index}
+                key={item._id || item.id || item.name}
                 className="flex justify-between text-sm text-gray-700"
               >
                 <span>

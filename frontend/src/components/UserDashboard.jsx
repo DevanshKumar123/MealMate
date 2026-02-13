@@ -31,7 +31,12 @@ function UserDashboard() {
   }
 
   useEffect (() => {
-    setUpdatedItemsList(itemsInMyCity)
+    if (itemsInMyCity && itemsInMyCity.length > 0) {
+      setUpdatedItemsList(itemsInMyCity);
+    } else {
+      // fallback: show some default or empty
+      setUpdatedItemsList([]);
+    }
   },[itemsInMyCity])
 
   const updateButton = (ref, setLeftButton, setRightButton) => {
@@ -97,6 +102,15 @@ function UserDashboard() {
           </div>
         </div>
       )}
+      {searchItems && searchItems.length === 0 && (
+        <div className="w-full max-w-6xl flex flex-col gap-5 items-start p-5 bg-white shadow-md rounded-2xl mt-4">
+          <h1 className="text-white text-2xl sm:text-3xl font-semibold drop-shadow-lg bg-black/40 px-4 py-2 rounded-lg border-b-0">Search Results</h1>
+          <div className="w-full h-auto flex flex-wrap gap-6 justify-center">
+            <span className="text-gray-400 text-xl">No result found</span>
+          </div>
+        </div>
+      )}
+      {(!searchItems || searchItems === null) && null}
 
       <div className="w-full max-w-6xl flex flex-col gap-5 items-start p-[10px]">
         <h1 className="text-white text-2xl sm:text-3xl font-bold drop-shadow-lg bg-black/40 px-4 py-2 rounded-lg">
@@ -132,7 +146,7 @@ function UserDashboard() {
 
       <div className="w-full max-w-6xl flex flex-col gap-5 items-start p-[10px]">
         <h1 className="text-white text-2xl sm:text-3xl font-bold drop-shadow-lg bg-black/40 px-4 py-2 rounded-lg">
-          Best Shop in {currentCity}
+          Best Shops
         </h1>
 
         <div className="w-full relative">
@@ -148,9 +162,8 @@ function UserDashboard() {
             className="w-full flex overflow-x-auto gap-4 pb-2"
             ref={shopScrollRef}
           >
-            {shopInMyCity?.map((shop, index) => (
-              // <CategoryCard name={shop.name} image={shop.image} key={index} onClick={() => handleFilterByCategory(cate.category)} />
-              <CategoryCard name={shop.name} image={shop.image} key={index} onClick={() => navigate(`/shop/${shop._id}`)} />
+            {shopInMyCity?.map((shop) => (
+              <CategoryCard name={shop.name} image={shop.image} key={shop._id || shop.id || shop.name} onClick={() => navigate(`/shop/${shop._id}`)} />
             ))}
           </div>
           {showRightShopButton && (
@@ -168,8 +181,8 @@ function UserDashboard() {
           <h1 className="text-white text-2xl sm:text-3xl font-bold drop-shadow-lg bg-black/40 px-4 py-2 rounded-lg">Suggested Food Items</h1>
 
           <div className="w-full h-auto flex flex-wrap gap-[20px] justify-center">
-            {updatedItemsList?.map((item,index) => (
-              <FoodCard key={index} data={item} />
+            {updatedItemsList?.map((item) => (
+              <FoodCard key={item._id || item.id || item.name} data={item} />
             ))}
           </div>
       </div>

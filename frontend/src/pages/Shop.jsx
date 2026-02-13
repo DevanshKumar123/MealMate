@@ -52,7 +52,7 @@ function Shop() {
 
             {items.length > 0 ? (
                 <div className='flex flex-wrap justify-center gap-8'>
-                    {items.map((item) => (<FoodCard data={item} />))}
+                    {items.map((item) => (<FoodCard data={item} key={item._id || item.id || item.name} />))}
                 </div>
             ) : <p className='text-center text-gray-500 text-lg'>No Items Available</p>}
         </div>

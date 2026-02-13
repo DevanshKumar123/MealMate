@@ -9,6 +9,7 @@ function useGetItemsByCity() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (!currentCity) return;
     const fetchItems = async () => {
       try {
         const result = await axios.get(`${serverUrl}/api/item/get-by-city/${currentCity}`, {
@@ -16,13 +17,11 @@ function useGetItemsByCity() {
         });
         dispatch(setItemsInMyCity(result.data));
       } catch (error) {
+        dispatch(setItemsInMyCity([]));
         console.log(error);
       }
     };
-
-    if (currentCity) {
-      fetchItems();
-    }
+    fetchItems();
   }, [currentCity]);
 }
 

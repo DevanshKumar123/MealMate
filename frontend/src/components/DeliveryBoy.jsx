@@ -20,31 +20,22 @@ function DeliveryBoy() {
   const [loading,setLoading] = useState(false)
   const [message,setMessage] = useState("")
 
-  // Device location is Haldia, West Bengal - use for all delivery boys
-  const DEVICE_LOCATION = {
-    latitude: 22.1697,
-    longitude: 88.3697
-  };
-
   useEffect(() => {
     if (!socket || userData.role !== "deliveryBoy") return;
-    
-    // Emit Haldia device location
     const updateLocation = () => {
-      setDeliveryBoyLocation({lat: DEVICE_LOCATION.latitude, lon: DEVICE_LOCATION.longitude});
-      socket.emit("updateLocation", {
-        latitude: DEVICE_LOCATION.latitude,
-        longitude: DEVICE_LOCATION.longitude,
-        userId: userData._id,
-      });
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          setDeliveryBoyLocation({ lat: position.coords.latitude, lon: position.coords.longitude });
+          socket.emit("updateLocation", {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            userId: userData._id,
+          });
+        });
+      }
     };
-    
-    // Send location immediately
     updateLocation();
-    
-    // Send location updates every 10 seconds
     const intervalId = setInterval(updateLocation, 10000);
-
     return () => {
       clearInterval(intervalId);
     };
@@ -115,6 +106,7 @@ function DeliveryBoy() {
 
   const verifyOtp = async () => {
     setMessage("")
+    setLoading(true)
     try {
       const result = await axios.post(
         `${serverUrl}/api/order/verify-delivery-otp`,
@@ -127,10 +119,13 @@ function DeliveryBoy() {
           withCredentials: true,
         }
       );
-      console.log(result.data);
-      setMessage(result.data.message)
-      location.reload()
+      setMessage("Delivered successfully!");
+      setLoading(false);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -292,12 +287,14 @@ function DeliveryBoy() {
                   onChange={(e) => setOtp(e.target.value)}
                   value={otp}
                 />
+                {loading && <div className="fixed inset-0 flex items-center justify-center z-50"><div className="bg-white p-6 rounded-xl shadow-lg"><ClipLoader size={40} color="#ff4d2d" /></div></div>}
                 {message && <p className="text-center text-green-400 text-2xl">{message}</p>}
                 <button
                   className="w-full bg-orange-500 text-white py-2 rounded-lg font-semibold hover:bg-orange-600 transition-all"
                   onClick={verifyOtp}
+                  disabled={loading}
                 >
-                  Submit OTP
+                  {loading ? <ClipLoader size={20} color="white" /> : "Submit OTP"}
                 </button>
               </div>
             )}
