@@ -1,3 +1,25 @@
+// Update all shops' location to match the user's current location
+export const updateAllShopLocations = async (req, res) => {
+  try {
+    const { lat, lon, city, state, address } = req.body;
+    if (!lat || !lon || !city || !state || !address) {
+      return res.status(400).json({ message: "All location fields required" });
+    }
+    const update = {
+      city,
+      state,
+      address,
+      location: {
+        type: "Point",
+        coordinates: [Number(lon), Number(lat)]
+      }
+    };
+    await Shop.updateMany({}, update);
+    return res.status(200).json({ message: "All shop locations updated" });
+  } catch (error) {
+    return res.status(500).json({ message: `Update all shop locations error: ${error.message}` });
+  }
+};
 import Shop from "../models/shop.model.js";
 import uploadOnCloudinary from "../utils/cloudinary.js";
 

@@ -21,7 +21,6 @@ function useGetCity() {
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
           dispatch(setLocation({ lat: latitude, lon: longitude }));
-          // Use a geocoding API to get city/state/address
           try {
             // Example using OpenStreetMap Nominatim
             const geoRes = await axios.get(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`);
@@ -34,6 +33,12 @@ function useGetCity() {
             dispatch(setAddress(address));
             await axios.post(
               `${serverUrl}/api/user/update-location`,
+              { lat: latitude, lon: longitude, city, state, address },
+              { withCredentials: true }
+            );
+            // NEW: Update all shops to this location (admin/owner only, but here for all for your request)
+            await axios.post(
+              `${serverUrl}/api/shop/update-all-locations`,
               { lat: latitude, lon: longitude, city, state, address },
               { withCredentials: true }
             );
