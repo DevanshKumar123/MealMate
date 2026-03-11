@@ -42,12 +42,16 @@ function MyOrders() {
           <h1 className="text-2xl font-bold text-start text-white drop-shadow-lg bg-black/40 px-4 py-2 rounded-lg">My Orders</h1>
         </div>
         <div className="space-y-6">
-          {myOrders?.map((order, index) =>
-            userData.role == "user" ? (
-              <UserOrderCard data={order} key={index} />
-            ) : userData.role == "owner" ? (
-              <OwnerOrderCard data={order} key={index} />
-            ) : null
+          {Array.isArray(myOrders) && myOrders.length > 0 ? (
+            myOrders.filter(order => order && order._id).map((order, index) =>
+              userData.role === "user" ? (
+                <UserOrderCard data={order} key={order._id || index} />
+              ) : userData.role === "owner" ? (
+                <OwnerOrderCard data={order} key={order._id || index} />
+              ) : null
+            )
+          ) : (
+            <div className="text-gray-400 text-center py-8">No orders found.</div>
           )}
         </div>
       </div>

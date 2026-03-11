@@ -49,17 +49,18 @@ function UserOrderCard({data}) {
             </div>
         </div>
 
-        {data.shopOrders.map((shopOrder,index)=>(
+        {Array.isArray(data.shopOrders) && data.shopOrders.length > 0 ? (
+          data.shopOrders.filter(shopOrder => shopOrder && shopOrder.shop && shopOrder.shop.name).map((shopOrder, index) => (
             <div className='border rounded-lg p-3 bg-[#fffaf7] space-y-3' key={index}>
                 <p>{shopOrder.shop.name}</p>
                 <div className='flex space-x-4 overflow-x-auto pb-2'>
-                    {shopOrder.shopOrderItems.map((item,index)=>(
+                    {Array.isArray(shopOrder.shopOrderItems) && shopOrder.shopOrderItems.length > 0 ? (
+                      shopOrder.shopOrderItems.filter(item => item && item.item).map((item, index) => (
                         <div key={index} className='flex-shrink-0 w-40 border rounded-lg p-2 bg-white'>
                             <img src={item.item?.image} alt={item.item?.name || 'Item'} className='w-full h-24 object-cover rounded' />
                             <p className='text-sm font-semibold mt-1'>{item.name}</p>
                             <p className='text-xs text-gray-500'>Qty: {item.quantity} x ₹{item.price}</p>
-
-                            {shopOrder.status == "delivered" && 
+                            {shopOrder.status === "delivered" && 
                                 <div className='flex space-x-1 mt-2'>
                                     {[1,2,3,4,5].map((star) => (
                                         <button className={`text-lg ${selectedRating[item.item._id] >= star ? 'text-yellow-400' : 'text-gray-400'}`} onClick={() => handleRating(item.item._id,star)}>★</button>
@@ -67,14 +68,18 @@ function UserOrderCard({data}) {
                                 </div>
                             }
                         </div>
-                    ))}
+                      ))
+                    ) : null}
                 </div>
                 <div className='flex justify-between items-center border-t pt-2'>
                     <p className='font-semibold'>SubTotal: {shopOrder.subTotal}</p>
                     <span className='text-sm font-medium text-blue-600'>{shopOrder.status}</span>
                 </div>
             </div>
-        ))}
+          ))
+        ) : (
+          <div className='text-gray-400 text-center py-4'>No shop orders found.</div>
+        )}
 
         <div className='flex justify-between items-center border-t pt-2'>
             <p className='font-semibold'>Total: ₹{data.totalAmount}</p>
