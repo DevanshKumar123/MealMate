@@ -5,8 +5,8 @@ import { sendOtpMail } from "../utils/mail.js";
 
 const cookieOptions = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-  sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+  secure: true, // Always secure for cross-origin
+  sameSite: "none", // Always none for cross-origin
   maxAge: 7 * 24 * 60 * 60 * 1000,
 };
 
