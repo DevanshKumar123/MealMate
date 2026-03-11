@@ -19,8 +19,8 @@ const app = express();
 const server = http.createServer(app);
 
 const allowedOrigins = [
-  "http://localhost:5173",
   "https://mealmate-xp8k.onrender.com",
+  "http://localhost:5173",
 ];
 
 app.use(
